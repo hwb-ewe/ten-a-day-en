@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Ten a Day – vocabulary and corrections</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#eef3f8;
+  --card:#ffffff;
+  --ink:#14213a;
+  --muted:#586781;
+  --rule:#cfdbea;
+  --head:#e5574c;      /* red line on an index card */
+  --pen:#c62828;       /* teacher's red pen */
+  --ok:#17744f;
+  --ok-soft:#d6f0e4;
+  --hl:#ffe14d;        /* highlighter */
+  --focus:#1f55d4;
+  --sans:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --hand:"Caveat", "Segoe Print", "Comic Sans MS", cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#0e1522; --card:#161f30; --ink:#e8eef8; --muted:#9dabc4; --rule:#2a3a56;
+    --head:#ff7b6f; --pen:#ff8a80; --ok:#63d2a3; --ok-soft:#163a2e; --hl:#6b5a00; --focus:#8fb2ff;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:1.0625rem; line-height:1.6;
+}
+button{font:inherit; color:inherit; cursor:pointer}
+:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+/* ---------- shell ---------- */
+.wrap{max-width:980px; margin:0 auto; padding:0 20px}
+header.top{padding:22px 0 0}
+.bar{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px 24px}
+.brand{font-family:var(--sans); font-weight:800; font-size:1.7rem; letter-spacing:-.02em; margin:0; line-height:1}
+.brand span{display:inline-block; background:var(--hl); padding:0 .18em; border-radius:3px; margin-left:.05em}
+.stats{font-family:var(--sans); font-size:.9rem; color:var(--muted); margin:0}
+nav.tabs{display:flex; gap:4px; margin-top:16px; border-bottom:2px solid var(--rule); overflow-x:auto}
+nav.tabs button{
+  font-family:var(--sans); font-weight:500; font-size:1rem; background:none; border:0;
+  padding:10px 14px; margin-bottom:-2px; border-bottom:3px solid transparent; color:var(--muted); white-space:nowrap;
+}
+nav.tabs button[aria-current="page"]{color:var(--ink); font-weight:700; border-bottom-color:var(--head)}
+nav.tabs button:hover{color:var(--ink)}
+main{padding:28px 0 64px}
+footer{padding:0 0 40px; color:var(--muted); font-size:.9rem; font-family:var(--sans)}
+
+h1,h2,h3{font-family:var(--sans); line-height:1.15; margin:0}
+.lead{max-width:60ch; color:var(--muted); margin:.5rem 0 0}
+.banner{background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--head); padding:12px 16px; margin:0 0 24px; font-family:var(--sans); font-size:.95rem}
+
+/* ---------- today ---------- */
+.daynav{display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:20px}
+.ghost{
+  font-family:var(--sans); font-size:.95rem; background:transparent; border:1px solid var(--rule);
+  border-radius:4px; padding:6px 12px; color:var(--ink);
+}
+.ghost:hover:not(:disabled){border-color:var(--ink)}
+.ghost:disabled{opacity:.4; cursor:default}
+.hero h1{font-size:clamp(2rem, 6vw, 3.4rem); font-weight:800; letter-spacing:-.025em}
+.hero .theme{font-size:1.2rem; margin:.4rem 0 0}
+.progress{display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; margin:20px 0 6px; font-family:var(--sans); font-size:.95rem}
+.ticks{display:flex; gap:5px}
+.tick{width:20px; height:20px; border:2px solid var(--muted); border-radius:3px; display:grid; place-items:center; font-size:.8rem; line-height:1}
+.tick.on{background:var(--ok); border-color:var(--ok); color:#fff}
+.tick.on::after{content:"\2713"}
+.tools{display:flex; flex-wrap:wrap; gap:8px 24px; align-items:center; margin:12px 0 26px; font-family:var(--sans); font-size:.95rem; color:var(--muted)}
+.tools label{display:flex; align-items:center; gap:8px; cursor:pointer; color:var(--ink)}
+.tools input{width:18px; height:18px; accent-color:var(--ok)}
+
+.cards{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr)); gap:22px}
+.card{
+  background:var(--card); border:1px solid var(--rule); border-radius:5px;
+  display:flex; flex-direction:column; box-shadow:0 1px 0 var(--rule);
+}
+.card-head{display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 12px; padding:16px 18px 8px; border-bottom:2px solid var(--head)}
+.word{font-size:1.9rem; font-weight:800; letter-spacing:-.02em}
+.pos{font-family:var(--sans); font-size:.9rem; color:var(--muted); font-style:italic}
+.say{margin-left:auto; font-family:var(--sans); font-size:.85rem; background:none; border:1px solid var(--rule); border-radius:4px; padding:3px 10px; color:var(--muted)}
+.say:hover{color:var(--ink); border-color:var(--ink)}
+.ruled{
+  line-height:28px; padding:0 18px; position:relative;
+  background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 27px, var(--rule) 27px, var(--rule) 28px);
+}
+.ruled p{margin:0}
+.reveal{margin-top:0; padding-top:0; flex:1}
+.def{font-weight:600}
+.ex{font-style:italic}
+.ex mark, .hl{background:var(--hl); color:inherit; padding:0 .15em; border-radius:2px; font-style:normal; font-weight:600}
+.note{font-family:var(--hand); font-size:1.3rem; color:var(--pen); line-height:28px}
+.card-foot{padding:10px 18px 14px; display:flex; justify-content:flex-end}
+.know{
+  font-family:var(--sans); font-size:.95rem; background:transparent; border:1.5px solid var(--ink);
+  border-radius:4px; padding:6px 14px;
+}
+.know:hover{background:var(--hl); color:#14213a; border-color:var(--ink)}
+.card.known .know{background:var(--ok); border-color:var(--ok); color:#fff}
+.card.known .know::before{content:"\2713\00a0"}
+.card.known .word{text-decoration:underline; text-decoration-color:var(--ok); text-decoration-thickness:3px; text-underline-offset:5px}
+
+body.cover .card:not(.open) .reveal > *{filter:blur(7px); user-select:none}
+body.cover .card:not(.open) .reveal{cursor:pointer}
+body.cover .card:not(.open) .reveal::after{
+  content:"Tap to reveal"; position:absolute; inset:0; display:grid; place-items:center;
+  font-family:var(--sans); font-weight:700; color:var(--ink);
+}
+
+/* ---------- corrections (red pen) ---------- */
+.section-title{font-size:1.5rem; margin:44px 0 6px}
+.fixes{display:grid; gap:16px; margin-top:16px}
+.fix{background:var(--card); border:1px solid var(--rule); border-left:4px solid var(--pen); border-radius:4px; padding:14px 18px 12px}
+.fix p{margin:0}
+.fix .lbl{display:inline-block; width:5.2em; font-family:var(--sans); font-size:.85rem; color:var(--muted)}
+.fix del{color:var(--pen); text-decoration-thickness:2px; font-weight:600}
+.fix ins{text-decoration:none; background:var(--ok-soft); border-bottom:2px solid var(--ok); font-weight:600; padding:0 .1em}
+.fix .rule{font-family:var(--hand); font-size:1.35rem; line-height:1.25; color:var(--pen); margin-top:8px}
+.fix .row-foot{display:flex; justify-content:flex-end; margin-top:6px}
+.fix.got{border-left-color:var(--ok)}
+.fix.got .rule{color:var(--muted)}
+.week-head{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 16px; margin:34px 0 0; padding-bottom:6px; border-bottom:2px solid var(--rule)}
+.week-head h2{font-size:1.4rem}
+.week-head span{font-family:var(--sans); color:var(--muted); font-size:.95rem}
+
+/* ---------- practice ---------- */
+.panel{background:var(--card); border:1px solid var(--rule); border-radius:5px; padding:22px; max-width:680px}
+fieldset{border:0; padding:0; margin:0 0 22px}
+legend{font-family:var(--sans); font-weight:700; margin-bottom:8px; padding:0}
+.seg{display:flex; flex-wrap:wrap; gap:8px}
+.seg button{font-family:var(--sans); background:transparent; border:1.5px solid var(--rule); border-radius:4px; padding:8px 14px}
+.seg button[aria-pressed="true"]{border-color:var(--ink); background:var(--hl); color:#14213a; font-weight:700}
+.primary{font-family:var(--sans); font-weight:700; background:var(--ink); color:var(--paper); border:0; border-radius:4px; padding:10px 20px}
+.primary:hover{opacity:.88}
+.qmeta{display:flex; justify-content:space-between; font-family:var(--sans); color:var(--muted); font-size:.95rem; margin-bottom:14px}
+.qtext{font-size:1.25rem; margin:0 0 18px}
+.qtext .gap{display:inline-block; min-width:5em; border-bottom:2px solid var(--ink); margin:0 .15em}
+.opts{display:grid; gap:10px}
+.opt{text-align:left; background:var(--card); border:1.5px solid var(--rule); border-radius:4px; padding:10px 14px; font-family:var(--serif)}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)}
+.opt.wrong{border-color:var(--pen); text-decoration:line-through; text-decoration-color:var(--pen)}
+.feedback{margin-top:18px; padding-top:14px; border-top:1px solid var(--rule)}
+.feedback strong{font-family:var(--sans)}
+.score{font-family:var(--sans); font-size:2.6rem; font-weight:800; letter-spacing:-.02em; margin:0 0 6px}
+.review{margin:16px 0 22px; padding:0; list-style:none; display:grid; gap:10px}
+.review li{border-left:4px solid var(--pen); padding:2px 0 2px 12px}
+.empty{color:var(--muted)}
+
+/* ---------- library ---------- */
+.filters{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:18px 0 6px}
+.filters input[type=search]{
+  font:inherit; font-family:var(--sans); background:var(--card); color:var(--ink); border:1.5px solid var(--rule);
+  border-radius:4px; padding:8px 12px; min-width:min(100%,260px);
+}
+.lib-day{margin-top:18px}
+.lib-day h3{font-size:1.05rem}
+.lib-day h3 span{font-weight:500; color:var(--muted)}
+.lib-row{display:grid; grid-template-columns:auto 1fr; gap:0 12px; padding:9px 0; border-bottom:1px solid var(--rule); align-items:start}
+.lib-row input{width:20px; height:20px; margin-top:4px; accent-color:var(--ok)}
+.lib-row b{font-family:var(--sans); font-size:1.05rem}
+.lib-row i{font-family:var(--sans); color:var(--muted); font-size:.88rem}
+.lib-row p{margin:0}
+.lib-row .d{grid-column:2}
+
+@media (max-width:520px){
+  body{font-size:1rem}
+  .wrap{padding:0 14px}
+  .fix .lbl{display:block; width:auto}
+}
+@media (prefers-reduced-motion:no-preference){
+  .know, .opt, .tick{transition:background-color .15s, border-color .15s}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <h1 class="brand">Ten a <span>Day</span></h1>
+      <p class="stats" id="stats"></p>
+    </div>
+    <nav class="tabs" aria-label="Sections">
+      <button data-a="tab" data-v="today">Today</button>
+      <button data-a="tab" data-v="fixes">Corrections</button>
+      <button data-a="tab" data-v="practice">Practice</button>
+      <button data-a="tab" data-v="library">All words</button>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+  <main id="main"><noscript>This page needs JavaScript to show your words.</noscript></main>
+  <footer>The word lists live in data.js. Your progress is saved in this browser only.</footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- helpers ---------- */
+const $ = (s, el=document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+const ymd = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parse = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); };
+const fmtLong = s => parse(s).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+const fmtShort = s => parse(s).toLocaleDateString('en-GB',{day:'numeric',month:'long'});
+const weekStart = s => { const d=parse(s); d.setDate(d.getDate()-((d.getDay()+6)%7)); return ymd(d); };
+const daysBetween = (a,b) => Math.round((parse(a)-parse(b))/864e5);
+const mark = (s,tag) => esc(s).replace(/\*(.+?)\*/g, '<'+tag+'>$1</'+tag+'>');
+const strip = s => s.replace(/\*/g,'');
+const gapify = s => esc(s).replace(/\*(.+?)\*/g, '<span class="gap"></span>');
+const surface = s => { const m=s.match(/\*(.+?)\*/); return m?m[1]:null; };
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; };
+
+if (typeof DAYS === 'undefined' || typeof CORRECTIONS === 'undefined') {
+  $('#main').innerHTML = '<p class="banner">data.js was not found. Put it in the same folder as index.html.</p>';
+  return;
+}
+
+/* ---------- storage ---------- */
+const KEY = 'tenaday.v1';
+const blank = () => ({known:{}, fixed:{}, activity:{}, cover:false});
+function load(){ try { return Object.assign(blank(), JSON.parse(localStorage.getItem(KEY)||'{}')); } catch(e){ return blank(); } }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} }
+let store = load();
+
+/* ---------- data prep ---------- */
+const TODAY = ymd(new Date());
+const days = DAYS.slice().sort((a,b)=>a.date.localeCompare(b.date));
+days.forEach(d => d.words.forEach((w,i) => { w.id = d.date+'-'+(i+1); }));
+const perDate = {};
+CORRECTIONS.forEach(c => { perDate[c.date] = (perDate[c.date]||0)+1; c.id = c.date+'-c'+perDate[c.date]; });
+let avail = days.filter(d => d.date <= TODAY);
+if (!avail.length) avail = days;
+let current = avail[avail.length-1].date;
+let view = 'today';
+const openSet = new Set();
+const allWords = () => avail.flatMap(d => d.words);
+const totalWords = () => allWords().length;
+
+const streak = () => {
+  let n=0; const d=parse(TODAY);
+  if(!store.activity[ymd(d)]) d.setDate(d.getDate()-1);
+  while(store.activity[ymd(d)]){ n++; d.setDate(d.getDate()-1); }
+  return n;
+};
+const touch = () => { store.activity[TODAY] = 1; };
+
+function say(t){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t.replace(/\(.*?\)/g,''));
+  u.lang = 'en-GB'; u.rate = .9;
+  speechSynthesis.speak(u);
+}
+
+/* ---------- views ---------- */
+function correctionHTML(c){
+  const got = !!store.fixed[c.id];
+  return '<article class="fix'+(got?' got':'')+'">'+
+    '<p><span class="lbl">You wrote</span>'+mark(c.wrong,'del')+'</p>'+
+    '<p><span class="lbl">Better</span>'+mark(c.right,'ins')+'</p>'+
+    '<p class="rule">'+esc(c.rule)+'</p>'+
+    '<div class="row-foot"><button class="know" data-a="fix" data-id="'+c.id+'" aria-pressed="'+got+'">'+(got?'Got it':'I have got this')+'</button></div>'+
+  '</article>';
+}
+
+function cardHTML(w){
+  const known = !!store.known[w.id], open = openSet.has(w.id);
+  return '<li class="card'+(known?' known':'')+(open?' open':'')+'">'+
+    '<div class="card-head"><h2 class="word">'+esc(w.w)+'</h2><span class="pos">'+esc(w.pos)+'</span>'+
+      '<button class="say" data-a="say" data-t="'+esc(w.w)+'" aria-label="Hear '+esc(w.w)+'">Listen</button></div>'+
+    '<div class="reveal ruled" data-card="'+w.id+'"><p class="def">'+esc(w.def)+'</p><p class="ex">'+mark(w.ex,'mark')+'</p>'+(w.note?'<p class="note">'+esc(w.note)+'</p>':'')+'</div>'+
+    '<div class="card-foot"><button class="know" data-a="know" data-id="'+w.id+'" aria-pressed="'+known+'">'+(known?'Learned':'Mark as learned')+'</button></div>'+
+  '</li>';
+}
+
+function viewToday(){
+  const day = days.find(d=>d.date===current);
+  const idx = avail.findIndex(d=>d.date===current);
+  const got = day.words.filter(w=>store.known[w.id]).length;
+  const ws = weekStart(current);
+  const weekWords = avail.filter(d=>weekStart(d.date)===ws).flatMap(d=>d.words);
+  const weekGot = weekWords.filter(w=>store.known[w.id]).length;
+  const newest = avail[avail.length-1].date;
+  const recent = CORRECTIONS.filter(c => c.date<=current && daysBetween(current,c.date)<=13);
+
+  let h = '';
+  if (newest < TODAY) h += '<p class="banner">There is no new list for today yet. The newest list is from '+esc(fmtLong(newest))+'. Add next week\u2019s words to data.js to continue.</p>';
+  h += '<div class="daynav"><button class="ghost" data-a="prev"'+(idx<=0?' disabled':'')+'>Previous day</button>'+
+       '<button class="ghost" data-a="next"'+(idx>=avail.length-1?' disabled':'')+'>Next day</button></div>';
+  h += '<section class="hero"><h1>'+esc(fmtLong(current))+'</h1>'+
+       '<p class="theme">Ten words about '+esc(day.theme)+'.</p>'+
+       '<div class="progress"><div class="ticks" role="img" aria-label="'+got+' of '+day.words.length+' learned">'+
+       day.words.map(w=>'<span class="tick'+(store.known[w.id]?' on':'')+'"></span>').join('')+
+       '</div><span>'+got+' of '+day.words.length+' learned today. This week: '+weekGot+' of '+weekWords.length+'.</span></div></section>';
+  h += '<div class="tools"><label><input type="checkbox" data-a="cover"'+(store.cover?' checked':'')+'> Cover the meanings and test myself</label></div>';
+  h += '<ul class="cards">'+day.words.map(cardHTML).join('')+'</ul>';
+  if (recent.length) {
+    h += '<h2 class="section-title">Corrections from your recent writing</h2>'+
+         '<p class="lead">Mistakes from the past two weeks. Say the correct version aloud once, then tick it off.</p>'+
+         '<div class="fixes">'+recent.map(correctionHTML).join('')+'</div>';
+  }
+  return h;
+}
+
+function viewFixes(){
+  const total = CORRECTIONS.length, gotN = CORRECTIONS.filter(c=>store.fixed[c.id]).length;
+  const weeks = {};
+  CORRECTIONS.forEach(c => { (weeks[weekStart(c.date)] = weeks[weekStart(c.date)]||[]).push(c); });
+  let h = '<h1>Your corrections</h1><p class="lead">Every mistake we have marked in your writing, with the rule behind it. '+gotN+' of '+total+' ticked off.</p>';
+  Object.keys(weeks).sort().reverse().forEach(k => {
+    const list = weeks[k].slice().sort((a,b)=>b.date.localeCompare(a.date));
+    h += '<div class="week-head"><h2>Week of '+esc(fmtShort(k))+'</h2><span>'+list.filter(c=>store.fixed[c.id]).length+' of '+list.length+' ticked</span></div>'+
+         '<div class="fixes">'+list.map(correctionHTML).join('')+'</div>';
+  });
+  return h;
+}
+
+/* ----- practice ----- */
+let qcfg = {scope:'week', mode:'meaning'};
+let quiz = null;
+
+function scopeDays(){
+  if (qcfg.scope==='day') return avail.filter(d=>d.date===current);
+  if (qcfg.scope==='week') { const ws=weekStart(current); return avail.filter(d=>weekStart(d.date)===ws); }
+  return avail;
+}
+function scopeFixes(){
+  if (qcfg.scope==='day') return CORRECTIONS.filter(c=>c.date===current);
+  if (qcfg.scope==='week') { const ws=weekStart(current); return CORRECTIONS.filter(c=>weekStart(c.date)===ws); }
+  return CORRECTIONS;
+}
+
+function startQuiz(){
+  let items = [];
+  const everyone = allWords();
+  if (qcfg.mode==='meaning') {
+    items = shuffle(scopeDays().flatMap(d=>d.words)).slice(0,10).map(w => {
+      const others = everyone.filter(x=>x.id!==w.id);
+      const pick = [...shuffle(others.filter(x=>x.pos===w.pos)), ...shuffle(others.filter(x=>x.pos!==w.pos))].slice(0,3).map(x=>x.w);
+      return {
+        prompt:'Which word or phrase means: <em>'+esc(w.def)+'</em>', correct:w.w, options:shuffle([w.w,...pick]),
+        explain:'<p>'+mark(w.ex,'mark')+'</p>', review:'<b>'+esc(w.w)+'</b>: '+esc(w.def)
+      };
+    });
+  } else if (qcfg.mode==='gap') {
+    items = shuffle(scopeDays().flatMap(d=>d.words).filter(w=>surface(w.ex))).slice(0,10).map(w => {
+      const ans = surface(w.ex);
+      const others = everyone.filter(x=>x.id!==w.id && surface(x.ex));
+      const pick = [...shuffle(others.filter(x=>x.pos===w.pos)), ...shuffle(others.filter(x=>x.pos!==w.pos))].slice(0,3).map(x=>surface(x.ex));
+      return {
+        prompt:'Choose the word or phrase that fits: <br>'+gapify(w.ex), correct:ans, options:shuffle([ans,...pick]),
+        explain:'<p>'+mark(w.ex,'mark')+'</p><p class="empty">'+esc(w.w)+': '+esc(w.def)+'</p>', review:mark(w.ex,'mark')
+      };
+    });
+  } else {
+    items = shuffle(scopeFixes()).slice(0,10).map(c => ({
+      prompt:'Which sentence is correct?', correct:strip(c.right), options:shuffle([strip(c.wrong),strip(c.right)]),
+      explain:'<p class="rule-hand" style="font-family:var(--hand);font-size:1.3rem;color:var(--pen);line-height:1.25;margin:0">'+esc(c.rule)+'</p>',
+      review:mark(c.wrong,'del')+' <br>'+mark(c.right,'ins')
+    }));
+  }
+  quiz = items.length ? {items, i:0, score:0, picked:null, misses:[], done:false} : {empty:true};
+}
+
+function viewPractice(){
+  const seg = (k, opts) => '<div class="seg">'+opts.map(o=>'<button data-a="cfg" data-k="'+k+'" data-v="'+o[0]+'" aria-pressed="'+(qcfg[k]===o[0])+'">'+o[1]+'</button>').join('')+'</div>';
+  if (!quiz || quiz.empty) {
+    return '<h1>Practice</h1><p class="lead">Up to ten questions. Pick what to practise and how.</p><div class="panel" style="margin-top:20px">'+
+      '<fieldset><legend>Which words?</legend>'+seg('scope',[['day','This day\u2019s list'],['week','This week'],['all','Everything so far']])+'</fieldset>'+
+      '<fieldset><legend>What kind of question?</legend>'+seg('mode',[['meaning','Meaning to word'],['gap','Fill the gap'],['fix','Fix the sentence']])+'</fieldset>'+
+      (quiz&&quiz.empty?'<p class="banner">Nothing to practise in that selection. Try \u201cThis week\u201d or \u201cEverything so far\u201d.</p>':'')+
+      '<button class="primary" data-a="q-start">Start practice</button></div>';
+  }
+  if (quiz.done) {
+    let h = '<h1>Practice</h1><div class="panel" style="margin-top:20px"><p class="score">'+quiz.score+' of '+quiz.items.length+'</p>';
+    h += quiz.misses.length ? '<p>Worth another look:</p><ul class="review">'+quiz.misses.map(m=>'<li>'+m.review+'</li>').join('')+'</ul>' : '<p>No mistakes. Come back tomorrow for ten new words.</p>';
+    return h + '<button class="primary" data-a="q-start">Another round</button> <button class="ghost" data-a="q-again">Change settings</button></div>';
+  }
+  const q = quiz.items[quiz.i], answered = quiz.picked!==null;
+  let h = '<h1>Practice</h1><div class="panel" style="margin-top:20px"><div class="qmeta"><span>Question '+(quiz.i+1)+' of '+quiz.items.length+'</span><span>Score '+quiz.score+'</span></div>'+
+          '<p class="qtext">'+q.prompt+'</p><div class="opts">';
+  q.options.forEach((o,i) => {
+    let cls = 'opt';
+    if (answered) { if (o===q.correct) cls+=' right'; else if (i===quiz.picked) cls+=' wrong'; }
+    h += '<button class="'+cls+'" data-a="q-opt" data-i="'+i+'"'+(answered?' disabled':'')+'>'+esc(o)+'</button>';
+  });
+  h += '</div>';
+  if (answered) {
+    const ok = q.options[quiz.picked]===q.correct;
+    h += '<div class="feedback"><p><strong>'+(ok?'Correct.':'Not quite.')+'</strong></p>'+q.explain+
+         '<p><button class="primary" data-a="q-next">'+(quiz.i===quiz.items.length-1?'See results':'Next question')+'</button></p></div>';
+  }
+  return h + '</div>';
+}
+
+/* ----- library ----- */
+const lib = {q:'', f:'all'};
+function libHTML(){
+  const q = lib.q.trim().toLowerCase();
+  const weeks = {};
+  avail.forEach(d => { (weeks[weekStart(d.date)] = weeks[weekStart(d.date)]||[]).push(d); });
+  let out = '';
+  Object.keys(weeks).sort().reverse().forEach(k => {
+    const inner = weeks[k].slice().reverse().map(d => {
+      const rows = d.words.filter(w => {
+        const st = store.known[w.id] ? 'learned' : 'todo';
+        if (lib.f!=='all' && lib.f!==st) return false;
+        return !q || (w.w+' '+w.def+' '+strip(w.ex)).toLowerCase().includes(q);
+      });
+      if (!rows.length) return '';
+      return '<div class="lib-day"><h3>'+esc(fmtLong(d.date))+' <span>'+esc(d.theme)+'</span></h3>'+
+        rows.map(w => '<label class="lib-row"><input type="checkbox" data-a="know" data-id="'+w.id+'"'+(store.known[w.id]?' checked':'')+'>'+
+          '<p><b>'+esc(w.w)+'</b> <i>'+esc(w.pos)+'</i></p><p class="d">'+esc(w.def)+' <span class="empty">'+mark(w.ex,'span class="hl"').replace(/<\/span class="hl">/g,'</span>')+'</span></p></label>').join('')+'</div>';
+    }).join('');
+    if (inner) out += '<h2 class="section-title" style="margin-top:34px">Week of '+esc(fmtShort(k))+'</h2>'+inner;
+  });
+  return out || '<p class="empty" style="margin-top:20px">No words match. Try a different search or filter.</p>';
+}
+function viewLibrary(){
+  const f = (v,t) => '<button data-a="filter" data-v="'+v+'" aria-pressed="'+(lib.f===v)+'">'+t+'</button>';
+  return '<h1>All words</h1><p class="lead">Every word and phrase so far. Tick the ones you know.</p>'+
+    '<div class="filters"><label class="sr" for="libq">Search words</label><input id="libq" type="search" placeholder="Search words or meanings" value="'+esc(lib.q)+'">'+
+    '<div class="seg">'+f('all','All')+f('todo','Still learning')+f('learned','Learned')+'</div></div>'+
+    '<div id="libList">'+libHTML()+'</div>';
+}
+
+/* ---------- render ---------- */
+function render(){
+  const got = allWords().filter(w=>store.known[w.id]).length;
+  const s = streak();
+  $('#stats').textContent = got+' of '+totalWords()+' words learned. Streak: '+s+(s===1?' day':' days')+'.';
+  document.querySelectorAll('nav.tabs button').forEach(b => {
+    if (b.dataset.v===view) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+  });
+  $('#main').innerHTML = view==='today' ? viewToday() : view==='fixes' ? viewFixes() : view==='practice' ? viewPractice() : viewLibrary();
+  document.body.classList.toggle('cover', !!store.cover && view==='today');
+}
+
+/* ---------- events ---------- */
+function act(t){
+  const a = t.dataset.a;
+  switch(a){
+    case 'tab': view=t.dataset.v; render(); window.scrollTo(0,0); break;
+    case 'prev': case 'next': {
+      const i = avail.findIndex(d=>d.date===current) + (a==='next'?1:-1);
+      if (avail[i]) { current = avail[i].date; render(); window.scrollTo(0,0); }
+      break;
+    }
+    case 'cover': store.cover = t.checked; save(); render(); break;
+    case 'say': say(t.dataset.t); break;
+    case 'know': { const id=t.dataset.id; if(store.known[id]) delete store.known[id]; else { store.known[id]=1; touch(); } save(); render(); break; }
+    case 'fix':  { const id=t.dataset.id; if(store.fixed[id]) delete store.fixed[id]; else { store.fixed[id]=1; touch(); } save(); render(); break; }
+    case 'filter': lib.f=t.dataset.v; render(); break;
+    case 'cfg': qcfg[t.dataset.k]=t.dataset.v; quiz=null; render(); break;
+    case 'q-start': startQuiz(); render(); break;
+    case 'q-again': quiz=null; render(); break;
+    case 'q-opt': {
+      if (quiz.picked!==null) break;
+      const q = quiz.items[quiz.i]; quiz.picked = +t.dataset.i;
+      if (q.options[quiz.picked]===q.correct) quiz.score++; else quiz.misses.push(q);
+      touch(); save(); render(); break;
+    }
+    case 'q-next': {
+      quiz.i++; quiz.picked=null;
+      if (quiz.i>=quiz.items.length) quiz.done=true;
+      render(); break;
+    }
+  }
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-a]');
+  if (t) { act(t); return; }
+  if (store.cover && view==='today') {
+    const r = e.target.closest('.reveal');
+    if (r) { const id = r.dataset.card; if (openSet.has(id)) openSet.delete(id); else openSet.add(id); render(); }
+  }
+});
+document.addEventListener('input', e => {
+  if (e.target.id==='libq') { lib.q = e.target.value; $('#libList').innerHTML = libHTML(); }
+});
+
+render();
+})();
+</script>
+</body>
+</html>
